@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Swiplykart
 
-## Getting Started
+A React-based e-commerce application for managing and purchasing products.
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Swiplykart is a modern web application built with React that provides a platform for online shopping and product management.
+
+## ✅ Completed Features
+
+- React project setup and configuration
+- Basic project structure initialized
+- Git repository initialized
+- Project documentation (README) created
+- Initial tech stack definition
+- Developer guidelines established
+
+## 🚧 In Progress / To Be Implemented
+
+### Core Features
+- [ ] Product listing and display
+- [ ] Product search and filtering
+- [ ] Shopping cart functionality
+- [ ] User authentication and login
+- [ ] User profile management
+- [ ] Order management system
+- [ ] Payment integration
+- [ ] Product reviews and ratings
+- [ ] Wishlist functionality
+
+### Technical Implementation
+- [ ] API integration and backend connectivity
+- [ ] State management (Redux/Context API)
+- [ ] Routing setup (React Router)
+- [ ] Component structure and organization
+- [ ] Responsive design and CSS styling
+- [ ] Form validation and handling
+- [ ] Error handling and loading states
+- [ ] Unit and integration tests
+- [ ] Performance optimization
+- [ ] SEO optimization
+
+### Admin Features
+- [ ] Admin dashboard
+- [ ] Product management
+- [ ] Order management
+- [ ] User management
+- [ ] Analytics and reporting
+
+### Deployment
+- [ ] Environment configuration
+- [ ] Build optimization
+- [ ] Deployment pipeline
+- [ ] Production testing
+
+## 📋 Getting Started
+
+1. Install dependencies: `npm install`
+2. Start development server: `npm start`
+3. Build for production: `npm run build`
+
+## 📁 Project Structure
+
+```
+swiplykart/
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── App.js
+│   └── index.js
+├── package.json
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: React
+- **Language**: JavaScript
+- **Styling**: (To be determined)
+- **State Management**: (To be determined)
+- **Backend**: (To be connected)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📝 Notes for Developers
 
-## Learn More
+- Follow React best practices and component guidelines
+- Keep components modular and reusable
+- Maintain consistent code style and naming conventions
+- Add comments for complex logic
+- Test features thoroughly before committing
+- Update this README as features are completed
 
-To learn more about Next.js, take a look at the following resources:
+## 📞 Support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For questions or issues, contact the development team.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Status**: Under Development
