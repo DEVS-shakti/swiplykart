@@ -60,8 +60,8 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full bg-zinc-950/60 shadow-[0px_0px_15px_rgba(255,137,171,0.15)] dark:shadow-[0px_0px_15px_rgba(255,137,171,0.15)] backdrop-blur-xl transition-colors duration-300 dark:bg-zinc-950/60">
-        <nav className="mx-auto flex h-20 w-full max-w-[1920px] items-center justify-between px-6 dark:text-zinc-100">
+      <header className="theme-header fixed top-0 z-50 w-full shadow-[0px_0px_15px_rgba(255,137,171,0.15)] backdrop-blur-xl transition-colors duration-300">
+        <nav className="mx-auto flex h-20 w-full max-w-[1920px] items-center justify-between px-6 text-foreground">
           <div className="flex items-center gap-8">
             <Link
               href="/"
@@ -92,7 +92,7 @@ export function Navbar() {
                     href={link.href}
                     className={cn(
                       "font-headline border-b-2 pb-1 text-sm font-bold uppercase tracking-[0.05em] transition-colors duration-300",
-                      active ? "border-pink-500 text-pink-400" : "border-transparent text-zinc-400 hover:text-zinc-100",
+                      active ? "border-pink-500 text-pink-400" : "border-transparent text-soft-foreground hover:text-foreground",
                     )}
                   >
                     {link.label}
@@ -104,7 +104,7 @@ export function Navbar() {
                   href="/admin"
                   className={cn(
                     "flex items-center gap-1.5 border-b-2 pb-1 font-headline text-sm font-bold uppercase tracking-[0.05em] transition-colors",
-                    pathname === "/admin" ? "border-sky-400 text-sky-400" : "border-transparent text-zinc-400 hover:text-zinc-100",
+                    pathname === "/admin" ? "border-sky-400 text-sky-400" : "border-transparent text-soft-foreground hover:text-foreground",
                   )}
                 >
                   <Shield className="size-3.5" />
@@ -116,14 +116,14 @@ export function Navbar() {
           <div className="flex items-center gap-6">
             <form
               onSubmit={onSearchSubmit}
-              className="hidden items-center rounded-lg border border-zinc-800 dark:border-zinc-800 bg-zinc-900 dark:bg-zinc-900 px-4 py-2 transition-all focus-within:border-pink-500 lg:flex"
+              className="hidden items-center rounded-lg border border-outline/60 bg-surface-container-low/80 px-4 py-2 transition-all focus-within:border-pink-500 lg:flex"
             >
-              <Search className="size-[18px] text-zinc-500 dark:text-zinc-500" aria-hidden />
+              <Search className="size-[18px] text-faint-foreground" aria-hidden />
               <input
                 name="q"
                 type="search"
                 placeholder="Search vibes..."
-                className="ml-2 w-48 border-none bg-transparent dark:bg-transparent text-sm text-zinc-100 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:ring-0 focus:outline-none"
+                className="ml-2 w-48 border-none bg-transparent text-sm text-foreground placeholder:text-faint-foreground focus:ring-0 focus:outline-none"
                 autoComplete="off"
               />
             </form>
@@ -133,8 +133,8 @@ export function Navbar() {
                 onClick={() => void setTheme(theme === "dark" ? "light" : "dark")}
                 className={`transition-all duration-300 hover:scale-110 ${
                   theme === "dark"
-                    ? "text-zinc-400 hover:text-pink-500"
-                    : "text-zinc-600 hover:text-rose-500"
+                    ? "text-soft-foreground hover:text-pink-500"
+                    : "text-faint-foreground hover:text-rose-500"
                 }`}
                 aria-label="Toggle theme"
                 title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
@@ -147,14 +147,14 @@ export function Navbar() {
               </button>
               <Link
                 href="/products"
-                className="text-zinc-400 transition-all duration-300 hover:scale-110 hover:text-pink-500"
+                className="text-soft-foreground transition-all duration-300 hover:scale-110 hover:text-pink-500"
                 aria-label="Shop cart"
               >
                 <ShoppingCart className="size-[22px]" strokeWidth={1.75} />
               </Link>
               <Link
                 href="/dashboard"
-                className="hidden text-zinc-400 transition-all duration-300 hover:scale-110 hover:text-pink-500 sm:flex"
+                className="hidden text-soft-foreground transition-all duration-300 hover:scale-110 hover:text-pink-500 sm:flex"
                 aria-label="Saved"
               >
                 <Heart className="size-[22px]" strokeWidth={1.75} />
@@ -164,14 +164,14 @@ export function Navbar() {
                   <button
                     type="button"
                     onClick={() => void handleSignOut()}
-                    className="hidden text-zinc-400 transition-all duration-300 hover:text-pink-500 sm:block"
+                    className="hidden text-soft-foreground transition-all duration-300 hover:text-pink-500 sm:block"
                     aria-label="Sign out"
                   >
                     <LogOut className="size-[22px]" strokeWidth={1.75} />
                   </button>
                   <Link
                     href="/dashboard"
-                    className="text-zinc-400 transition-all duration-300 hover:scale-110 hover:text-pink-500"
+                    className="text-soft-foreground transition-all duration-300 hover:scale-110 hover:text-pink-500"
                     aria-label="Account"
                   >
                     <UserRound className="size-[22px]" strokeWidth={1.75} />
@@ -180,7 +180,7 @@ export function Navbar() {
               ) : !loading ? (
                 <Link
                   href="/auth/login"
-                  className="text-zinc-400 transition-all duration-300 hover:scale-110 hover:text-pink-500"
+                  className="text-soft-foreground transition-all duration-300 hover:scale-110 hover:text-pink-500"
                   aria-label="Sign in"
                 >
                   <UserRound className="size-[22px]" strokeWidth={1.75} />
@@ -192,7 +192,7 @@ export function Navbar() {
       </header>
       <div className="h-20 shrink-0" aria-hidden />
       <div className="pointer-events-none fixed inset-x-0 bottom-5 z-40 flex justify-center px-4 md:hidden">
-        <nav className="pointer-events-auto flex w-full max-w-sm items-center justify-between rounded-2xl border border-zinc-800/80 bg-zinc-950/90 px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+        <nav className="theme-panel pointer-events-auto flex w-full max-w-sm items-center justify-between rounded-2xl px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.18)]">
           {mobileLinks.map(({ href, label, icon: Icon }) => {
             const active = pathname === href;
 
@@ -202,7 +202,7 @@ export function Navbar() {
                 href={href}
                 className={cn(
                   "flex min-w-14 flex-col items-center gap-1 text-[10px] font-bold transition-colors",
-                  active ? "text-pink-400" : "text-zinc-500",
+                  active ? "text-pink-400" : "text-faint-foreground",
                 )}
               >
                 <Icon className={cn("size-4", active && "glow-pink-500")} strokeWidth={active ? 2.25 : 1.75} />

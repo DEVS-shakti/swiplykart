@@ -140,17 +140,17 @@ export function DashboardProfileSection() {
 
   if (loading) {
     return (
-      <section className="rounded-[28px] border border-white/8 bg-surface-container/40 p-6 backdrop-blur-xl">
-        <div className="h-32 animate-pulse rounded-2xl bg-white/5" />
+      <section className="theme-panel rounded-[28px] p-6">
+        <div className="h-32 animate-pulse rounded-2xl bg-surface-container-high/80" />
       </section>
     );
   }
 
   if (!user) {
     return (
-      <section className="rounded-[28px] border border-white/8 bg-surface-container/40 p-6 backdrop-blur-xl">
-        <h2 className="font-headline text-lg font-bold text-white">Profile &amp; credentials</h2>
-        <p className="mt-2 text-sm text-white/55">
+      <section className="theme-panel rounded-[28px] p-6">
+        <h2 className="font-headline text-lg font-bold text-foreground">Profile &amp; credentials</h2>
+        <p className="mt-2 text-sm text-soft-foreground">
           <Link href="/auth/login" className="font-semibold text-primary underline-offset-2 hover:underline">
             Sign in
           </Link>{" "}
@@ -161,16 +161,16 @@ export function DashboardProfileSection() {
   }
 
   return (
-    <section className="rounded-[28px] border border-white/8 bg-surface-container/40 p-6 backdrop-blur-xl md:p-8">
-      <h2 className="font-headline text-lg font-bold text-white">Profile &amp; credentials</h2>
-      <p className="mt-1 text-sm text-white/45">Signed in as {user.email}</p>
+    <section className="theme-panel rounded-[28px] p-6 md:p-8">
+      <h2 className="font-headline text-lg font-bold text-foreground">Profile &amp; credentials</h2>
+      <p className="mt-1 text-sm text-faint-foreground">Signed in as {user.email}</p>
 
       {notice ? (
         <p
           className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
             notice.kind === "success"
               ? "border-tertiary/30 bg-tertiary/10 text-tertiary"
-              : "border-rose-400/30 bg-rose-500/10 text-rose-200"
+              : "border-rose-400/30 bg-rose-500/10 text-rose-300"
           }`}
         >
           {notice.text}
@@ -178,46 +178,40 @@ export function DashboardProfileSection() {
       ) : null}
 
       {!hasPasswordProvider ? (
-        <p className="mt-4 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/55">
+        <p className="mt-4 rounded-2xl border border-outline/60 bg-surface-container-low/80 px-4 py-3 text-sm text-soft-foreground">
           You signed in with Google. To change the email or password for this account, use your Google account settings.
           You can still update your display name below for how you appear in SwiplyKart.
         </p>
       ) : null}
 
       <form className="mt-6 space-y-4" onSubmit={(e) => void onSaveProfile(e)}>
-        <h3 className="text-sm font-semibold text-white/80">Display name</h3>
-        <label className="grid gap-2 text-xs text-white/50">
+        <h3 className="text-sm font-semibold text-foreground">Display name</h3>
+        <label className="grid gap-2 text-xs text-faint-foreground">
           <span className="flex items-center gap-2">
-            <UserRound className="size-3.5 text-white/35" />
+            <UserRound className="size-3.5 text-faint-foreground" />
             Name
           </span>
           <Input value={name} onChange={(ev) => setName(ev.target.value)} placeholder="Your name" autoComplete="name" />
         </label>
         <Button type="submit" disabled={savingProfile}>
-          {savingProfile ? "Saving…" : "Save display name"}
+          {savingProfile ? "Saving..." : "Save display name"}
         </Button>
       </form>
 
       {hasPasswordProvider ? (
         <>
-          <form className="mt-10 space-y-4 border-t border-white/8 pt-8" onSubmit={(e) => void onChangeEmail(e)}>
-            <h3 className="text-sm font-semibold text-white/80">Email address</h3>
-            <label className="grid gap-2 text-xs text-white/50">
+          <form className="mt-10 space-y-4 border-t border-outline/50 pt-8" onSubmit={(e) => void onChangeEmail(e)}>
+            <h3 className="text-sm font-semibold text-foreground">Email address</h3>
+            <label className="grid gap-2 text-xs text-faint-foreground">
               <span className="flex items-center gap-2">
-                <Mail className="size-3.5 text-white/35" />
+                <Mail className="size-3.5 text-faint-foreground" />
                 New email
               </span>
-              <Input
-                type="email"
-                value={email}
-                onChange={(ev) => setEmail(ev.target.value)}
-                autoComplete="email"
-                required
-              />
+              <Input type="email" value={email} onChange={(ev) => setEmail(ev.target.value)} autoComplete="email" required />
             </label>
-            <label className="grid gap-2 text-xs text-white/50">
+            <label className="grid gap-2 text-xs text-faint-foreground">
               <span className="flex items-center gap-2">
-                <LockKeyhole className="size-3.5 text-white/35" />
+                <LockKeyhole className="size-3.5 text-faint-foreground" />
                 Current password (required to change email)
               </span>
               <Input
@@ -225,19 +219,19 @@ export function DashboardProfileSection() {
                 value={currentForEmail}
                 onChange={(ev) => setCurrentForEmail(ev.target.value)}
                 autoComplete="current-password"
-                placeholder="••••••••"
+                placeholder="********"
               />
             </label>
             <Button type="submit" variant="secondary" disabled={savingEmail}>
-              {savingEmail ? "Updating…" : "Update email"}
+              {savingEmail ? "Updating..." : "Update email"}
             </Button>
           </form>
 
-          <form className="mt-10 space-y-4 border-t border-white/8 pt-8" onSubmit={(e) => void onChangePassword(e)}>
-            <h3 className="text-sm font-semibold text-white/80">Password</h3>
-            <label className="grid gap-2 text-xs text-white/50">
+          <form className="mt-10 space-y-4 border-t border-outline/50 pt-8" onSubmit={(e) => void onChangePassword(e)}>
+            <h3 className="text-sm font-semibold text-foreground">Password</h3>
+            <label className="grid gap-2 text-xs text-faint-foreground">
               <span className="flex items-center gap-2">
-                <LockKeyhole className="size-3.5 text-white/35" />
+                <LockKeyhole className="size-3.5 text-faint-foreground" />
                 Current password
               </span>
               <Input
@@ -245,10 +239,10 @@ export function DashboardProfileSection() {
                 value={currentForPassword}
                 onChange={(ev) => setCurrentForPassword(ev.target.value)}
                 autoComplete="current-password"
-                placeholder="••••••••"
+                placeholder="********"
               />
             </label>
-            <label className="grid gap-2 text-xs text-white/50">
+            <label className="grid gap-2 text-xs text-faint-foreground">
               New password
               <Input
                 type="password"
@@ -259,7 +253,7 @@ export function DashboardProfileSection() {
                 minLength={6}
               />
             </label>
-            <label className="grid gap-2 text-xs text-white/50">
+            <label className="grid gap-2 text-xs text-faint-foreground">
               Confirm new password
               <Input
                 type="password"
@@ -271,7 +265,7 @@ export function DashboardProfileSection() {
               />
             </label>
             <Button type="submit" variant="secondary" disabled={savingPassword}>
-              {savingPassword ? "Updating…" : "Update password"}
+              {savingPassword ? "Updating..." : "Update password"}
             </Button>
           </form>
         </>

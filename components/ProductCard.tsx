@@ -67,14 +67,14 @@ export function ProductCard({
   function handleBuy(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    window.open(product.affiliateLink || '#', "_blank");
-    import("@/services/analyticsService").then(a => a.trackClick(product.id, user?.uid));
+    window.open(product.affiliateLink || "#", "_blank");
+    import("@/services/analyticsService").then((a) => a.trackClick(product.id, user?.uid));
   }
 
   return (
     <article
       className={cn(
-        "group overflow-hidden rounded-[28px] border border-white/6 bg-surface-container shadow-[0_18px_60px_rgba(0,0,0,0.22)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(255,138,169,0.16)]",
+        "theme-panel group overflow-hidden rounded-[28px] shadow-[0_18px_60px_rgba(0,0,0,0.14)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(255,138,169,0.16)]",
         className,
       )}
     >
@@ -97,13 +97,15 @@ export function ProductCard({
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-primary">{product.category}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-pink-200">{product.category}</p>
                 {off !== null ? (
-                  <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-extrabold text-background">−{off}%</span>
+                  <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-extrabold text-background">
+                    -{off}%
+                  </span>
                 ) : null}
               </div>
               <h3 className="mt-2 line-clamp-2 font-headline text-xl font-bold text-white">{product.name || product.title}</h3>
-              <p className="mt-1 text-sm text-white/60">${product.price?.toFixed(2)}</p>
+              <p className="mt-1 text-sm text-white/70">${product.price?.toFixed(2)}</p>
             </div>
           </div>
         </Link>
@@ -122,22 +124,25 @@ export function ProductCard({
       </div>
       <div className="space-y-4 p-5">
         <Link href={`/product/${product.id}`} className="block" onClick={() => viewProduct(product.id)}>
-          <p className="line-clamp-2 text-sm leading-6 text-white/60">{product.description}</p>
+          <p className="line-clamp-2 text-sm leading-6 text-soft-foreground">{product.description}</p>
         </Link>
         {showTags && product.vibes ? (
           <div className="flex flex-wrap gap-2">
             {product.vibes.slice(0, compact ? 2 : 3).map((vibe: string, index: number) => {
-              const assignedAccent = (index === 0 ? product.accent || "primary" : "secondary") as "primary" | "secondary" | "tertiary";
-              return <VibeTag key={vibe} label={vibe} accent={assignedAccent} />
+              const assignedAccent = (index === 0 ? product.accent || "primary" : "secondary") as
+                | "primary"
+                | "secondary"
+                | "tertiary";
+              return <VibeTag key={vibe} label={vibe} accent={assignedAccent} />;
             })}
           </div>
         ) : null}
-        <div className="flex justify-between items-center mt-4">
+        <div className="mt-4 flex items-center justify-between">
           <button
             type="button"
             className={cn(
               "inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors",
-              bookmarked ? "text-tertiary" : "text-white/45 hover:text-white",
+              bookmarked ? "text-tertiary" : "text-faint-foreground hover:text-foreground",
               !user && "opacity-70",
             )}
             onClick={handleSave}
@@ -145,7 +150,7 @@ export function ProductCard({
             <Bookmark className={cn("size-4", bookmarked && "fill-current")} />
             {bookmarked ? "Saved" : "Save"}
           </button>
-          
+
           <button
             onClick={handleBuy}
             className="rounded-xl bg-gradient-to-r from-primary to-primary-dim px-4 py-2 text-xs font-bold text-background transition hover:opacity-90"

@@ -24,15 +24,17 @@ export default async function Home() {
     <div className="min-h-screen bg-surface font-body selection:bg-primary/30">
       <Navbar />
       <main className="pb-24">
-        {/* Hero */}
         <section className="relative overflow-hidden px-8 pb-24 pt-16 md:px-12">
           <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-12 lg:grid-cols-12">
             <div className="z-10 lg:col-span-6">
-              <h1 className="mb-8 font-headline text-6xl font-extrabold leading-[0.9] tracking-tighter text-white md:text-8xl">
+              <h1 className="mb-8 font-headline text-6xl font-extrabold leading-[0.9] tracking-tighter text-foreground md:text-8xl">
                 Where{" "}
-                <span className="bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent">Shopping</span> Meets Your Vibe
+                <span className="bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent">
+                  Shopping
+                </span>{" "}
+                Meets Your Vibe
               </h1>
-              <p className="mb-12 max-w-md text-lg leading-relaxed text-zinc-400">
+              <p className="mb-12 max-w-md text-lg leading-relaxed text-soft-foreground">
                 Discover a curated flow of streetwear, tech-wear, and aesthetic essentials. Swipe through the future of retail.
               </p>
               <Link
@@ -56,14 +58,13 @@ export default async function Home() {
           <div className="pointer-events-none absolute bottom-0 left-0 -z-10 size-[400px] rounded-full bg-rose-500/5 blur-[100px]" />
         </section>
 
-        {/* Trending chips */}
         <section className="px-8 py-12 md:px-12">
           <div className="mx-auto max-w-[1440px]">
             <div className="mb-10 flex items-end justify-between">
-              <h2 className="font-headline text-3xl font-extrabold tracking-tight text-white">Categories</h2>
+              <h2 className="font-headline text-3xl font-extrabold tracking-tight text-foreground">Categories</h2>
               <Link
                 href="/products"
-                className="font-headline border-b border-pink-500/20 text-sm font-bold text-pink-400 transition-all hover:border-pink-500"
+                className="font-headline border-b border-pink-500/20 text-sm font-bold text-pink-500 transition-all hover:border-pink-500"
               >
                 Explore All
               </Link>
@@ -74,10 +75,10 @@ export default async function Home() {
                   key={label}
                   href={`/products?cat=${encodeURIComponent(label)}`}
                   className={cn(
-                    "flex-none rounded-lg border px-8 py-3 font-headline text-sm font-bold tracking-wide transition-all",
+                    "rounded-lg border px-8 py-3 font-headline text-sm font-bold tracking-wide transition-all",
                     index === 0
                       ? "border-pink-500 bg-pink-500 text-white shadow-[0_0_20px_rgba(255,51,133,0.4)]"
-                      : "border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-pink-500/50",
+                      : "border-outline bg-surface-container text-soft-foreground hover:border-pink-500/50 hover:text-foreground",
                   )}
                 >
                   {label}
@@ -87,14 +88,13 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Featured bento */}
-        <section className="bg-zinc-950/50 px-8 py-24 md:px-12">
+        <section className="bg-surface-container-low/35 px-8 py-24 md:px-12">
           <div className="mx-auto max-w-[1440px]">
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
               {bentoProducts[0] ? (
                 <Link
                   href={`/product/${bentoProducts[0].id}`}
-                  className="group relative col-span-2 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900 transition-all hover:border-pink-500/20 hover:shadow-[0_0_40px_rgba(255,51,133,0.15)] md:row-span-2 min-h-[320px] md:min-h-0"
+                  className="theme-frame group relative col-span-2 overflow-hidden rounded-lg transition-all hover:border-pink-500/20 hover:shadow-[0_0_40px_rgba(255,51,133,0.15)] md:row-span-2 min-h-[320px] md:min-h-0"
                 >
                   <Image
                     src={bentoProducts[0].image}
@@ -103,13 +103,13 @@ export default async function Home() {
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                   <div className="absolute bottom-8 left-8">
-                    <span className="mb-3 inline-block rounded-lg border border-pink-500/30 bg-pink-500/20 px-3 py-1 font-headline text-xs font-bold text-pink-400 backdrop-blur-sm">
+                    <span className="mb-3 inline-block rounded-lg border border-pink-500/30 bg-pink-500/20 px-3 py-1 font-headline text-xs font-bold text-pink-200 backdrop-blur-sm">
                       ESSENTIAL
                     </span>
                     <h3 className="font-headline text-3xl font-bold tracking-tight text-white">{bentoProducts[0].name}</h3>
-                    <p className="mt-2 font-headline text-xl font-bold text-pink-500">${bentoProducts[0].price?.toFixed(2)}</p>
+                    <p className="mt-2 font-headline text-xl font-bold text-pink-300">${bentoProducts[0].price?.toFixed(2)}</p>
                   </div>
                 </Link>
               ) : null}
@@ -117,7 +117,7 @@ export default async function Home() {
               {bentoProducts[1] ? (
                 <Link
                   href={`/product/${bentoProducts[1].id}`}
-                  className="group relative col-span-1 aspect-[2/3] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
+                  className="theme-frame group relative col-span-1 aspect-[2/3] overflow-hidden rounded-lg"
                 >
                   <Image
                     src={bentoProducts[1].image}
@@ -126,12 +126,12 @@ export default async function Home() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     sizes="25vw"
                   />
-                  <div className="absolute right-4 top-4 text-white/50 transition-colors hover:text-pink-500">
+                  <div className="absolute right-4 top-4 text-white/60 transition-colors hover:text-pink-300">
                     <Heart className="size-6" strokeWidth={1.5} />
                   </div>
                   <div className="absolute bottom-6 left-6">
                     <h3 className="font-headline text-lg font-bold tracking-tight text-white">{bentoProducts[1].name}</h3>
-                    <p className="mt-1 text-sm text-zinc-400">${bentoProducts[1].price?.toFixed(2)}</p>
+                    <p className="mt-1 text-sm text-white/75">${bentoProducts[1].price?.toFixed(2)}</p>
                   </div>
                 </Link>
               ) : null}
@@ -139,7 +139,7 @@ export default async function Home() {
               {bentoProducts[2] ? (
                 <Link
                   href={`/product/${bentoProducts[2].id}`}
-                  className="group relative col-span-1 aspect-square overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
+                  className="theme-frame group relative col-span-1 aspect-square overflow-hidden rounded-lg"
                 >
                   <Image
                     src={bentoProducts[2].image}
@@ -150,7 +150,7 @@ export default async function Home() {
                   />
                   <div className="absolute bottom-6 left-6">
                     <h3 className="font-headline text-lg font-bold tracking-tight text-white">{bentoProducts[2].name}</h3>
-                    <p className="mt-1 text-sm text-zinc-400">${bentoProducts[2].price?.toFixed(2)}</p>
+                    <p className="mt-1 text-sm text-white/75">${bentoProducts[2].price?.toFixed(2)}</p>
                   </div>
                 </Link>
               ) : null}
@@ -158,7 +158,7 @@ export default async function Home() {
               {bentoProducts[3] ? (
                 <Link
                   href={`/product/${bentoProducts[3].id}`}
-                  className="group relative col-span-2 aspect-[16/9] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
+                  className="theme-frame group relative col-span-2 aspect-[16/9] overflow-hidden rounded-lg"
                 >
                   <Image
                     src={bentoProducts[3].image}
@@ -169,7 +169,7 @@ export default async function Home() {
                   />
                   <div className="absolute bottom-6 left-6">
                     <h3 className="font-headline text-2xl font-bold tracking-tight text-white">{bentoProducts[3].name}</h3>
-                    <p className="mt-1 text-zinc-400">${bentoProducts[3].price?.toFixed(2)}</p>
+                    <p className="mt-1 text-white/75">${bentoProducts[3].price?.toFixed(2)}</p>
                   </div>
                 </Link>
               ) : null}
@@ -177,10 +177,9 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* CTA */}
         <section className="relative overflow-hidden px-8 py-32 md:px-12">
           <div className="relative z-10 mx-auto max-w-[1000px] text-center">
-            <h2 className="mb-8 font-headline text-5xl font-extrabold tracking-tighter text-white md:text-7xl">
+            <h2 className="mb-8 font-headline text-5xl font-extrabold tracking-tighter text-foreground md:text-7xl">
               Ready to find your <br />
               <span className="font-normal italic text-pink-400">aesthetic?</span>
             </h2>
@@ -204,7 +203,7 @@ export default async function Home() {
                     variant: "ghost",
                     size: "lg",
                     className:
-                      "rounded-lg border-2 border-pink-500/30 px-12 py-6 font-headline text-lg font-black text-zinc-100 hover:bg-pink-500/10",
+                      "rounded-lg border-2 border-pink-500/30 px-12 py-6 font-headline text-lg font-black text-foreground hover:bg-pink-500/10",
                   }),
                 )}
               >

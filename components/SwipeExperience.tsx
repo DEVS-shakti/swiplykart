@@ -148,7 +148,7 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
     await controls.start({ x: -420, opacity: 0, rotate: -12, transition: { duration: 0.22 } });
     controls.set({ x: 0, opacity: 1, rotate: 0 });
     setIndex((current) => Math.max(0, current - 1));
-  }, [index, products.length, controls]);
+  }, [index, controls]);
 
   const react = useCallback(
     async (action: "liked" | "disliked" | "saved") => {
@@ -164,7 +164,7 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
           try {
             await trackUserInteraction(user.uid, "like", current.id, false);
           } catch {
-            /* offline / rules */
+            /* ignore */
           }
         }
         await controls.start({ x: 420, opacity: 0, rotate: 12, transition: { duration: 0.22 } });
@@ -235,7 +235,7 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
   if (!products.length) {
     return (
       <section className="relative mx-auto flex min-h-[calc(100vh-10rem)] w-full max-w-lg flex-col items-center justify-center gap-6 px-6 pb-24 pt-8 text-center">
-        <p className="text-white/60">No products in the feed yet. Add items in Firestore or check your connection.</p>
+        <p className="text-soft-foreground">No products in the feed yet. Add items in Firestore or check your connection.</p>
         <Link href="/products" className={cn(buttonVariants({ variant: "secondary", size: "md" }))}>
           Browse catalog
         </Link>
@@ -251,17 +251,17 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
       </div>
 
       {!user ? (
-        <p className="relative z-20 mb-4 max-w-md text-center text-xs text-white/45">
-          Browsing as guest — swipe freely.{" "}
+        <p className="relative z-20 mb-4 max-w-md text-center text-xs text-faint-foreground">
+          Browsing as guest - swipe freely.{" "}
           <Link href="/auth/login" className="font-semibold text-primary underline-offset-2 hover:underline">
             Sign in
           </Link>{" "}
-          for saves & a tuned feed.
+          for saves and a tuned feed.
         </p>
       ) : null}
 
       {authHint ? (
-        <div className="relative z-20 mb-3 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-primary/25 bg-primary/10 px-4 py-2 text-sm text-white">
+        <div className="relative z-20 mb-3 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-primary/25 bg-primary/10 px-4 py-2 text-sm text-foreground">
           {authHint}{" "}
           <Link href="/auth/login" className="font-bold text-primary">
             Log in
@@ -278,7 +278,7 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
             aria-label="Previous product"
             onClick={() => void goPrev()}
             disabled={index <= 0}
-            className="absolute -left-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 rounded-full border-white/10 bg-white/8 hover:bg-white/12 disabled:pointer-events-none disabled:opacity-35 md:flex md:-left-20 lg:-left-24"
+            className="absolute -left-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 rounded-full border-outline/60 bg-surface-container-high/80 hover:bg-surface-container-highest disabled:pointer-events-none disabled:opacity-35 md:flex md:-left-20 lg:-left-24"
           >
             <ChevronLeft className="size-6 shrink-0" strokeWidth={2} aria-hidden />
           </Button>
@@ -289,7 +289,7 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
             type="button"
             aria-label="Next product"
             onClick={() => void goNext()}
-            className="absolute -right-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 rounded-full border-white/10 bg-white/8 text-primary hover:bg-white/12 md:flex md:-right-20 lg:-right-24"
+            className="absolute -right-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 rounded-full border-outline/60 bg-surface-container-high/80 text-primary hover:bg-surface-container-highest md:flex md:-right-20 lg:-right-24"
           >
             <ChevronRight className="size-6 shrink-0" strokeWidth={2} aria-hidden />
           </Button>
@@ -336,17 +336,22 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
           <Button variant="secondary" size="icon" type="button" className="h-14 w-14 rounded-full" onClick={() => void react("saved")}>
             <Bookmark className="size-5" />
           </Button>
-          <Button size="icon" type="button" className="h-[4.5rem] w-[4.5rem] rounded-full shadow-[0_0_32px_rgba(255,138,169,0.4)]" onClick={() => void react("liked")}>
+          <Button
+            size="icon"
+            type="button"
+            className="h-[4.5rem] w-[4.5rem] rounded-full shadow-[0_0_32px_rgba(255,138,169,0.4)]"
+            onClick={() => void react("liked")}
+          >
             <Heart className="size-8 fill-current" />
           </Button>
         </div>
 
-        <div className="flex w-full max-w-md items-center gap-4 text-white/40">
+        <div className="flex w-full max-w-md items-center gap-4 text-faint-foreground">
           <div className="flex flex-1 items-center gap-2">
             <Sparkles className="size-4 shrink-0 text-primary/80" />
             <span className="text-[10px] font-semibold uppercase tracking-[0.24em]">Flow</span>
           </div>
-          <div className="relative h-px flex-[2] overflow-hidden rounded-full bg-white/10">
+          <div className="relative h-px flex-[2] overflow-hidden rounded-full bg-outline/40">
             <motion.div
               className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_20px_rgba(255,138,169,0.4)]"
               initial={false}
@@ -359,8 +364,8 @@ export function SwipeExperience({ initialProducts }: SwipeExperienceProps) {
             {loadingMore ? " · +" : ""}
           </div>
         </div>
-        <p className="hidden text-[10px] text-white/30 md:block">
-          Keyboard: ← prev · → next · L like · D pass · S save
+        <p className="hidden text-[10px] text-faint-foreground md:block">
+          Keyboard: left prev · right next · L like · D pass · S save
         </p>
       </div>
     </section>

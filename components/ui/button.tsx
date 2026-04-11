@@ -11,9 +11,9 @@ const buttonVariants = cva(
         default:
           "bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow-[0_18px_50px_rgba(255,51,133,0.28)] hover:scale-[1.02] active:scale-[0.98]",
         secondary:
-          "border border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-[0.98]",
+          "border border-outline/60 bg-surface-container-high/70 text-foreground hover:bg-surface-container-highest/80 active:scale-[0.98]",
         ghost:
-          "bg-transparent text-white/70 hover:bg-white/5 hover:text-white active:scale-[0.98]",
+          "bg-transparent text-soft-foreground hover:bg-surface-container-low/70 hover:text-foreground active:scale-[0.98]",
         accent:
           "bg-tertiary-container/80 text-on-tertiary-container shadow-[0_12px_30px_rgba(0,227,253,0.18)] hover:scale-[1.02] active:scale-[0.98]",
       },

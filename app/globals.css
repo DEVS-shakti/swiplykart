@@ -23,6 +23,15 @@
   --tertiary-container: #0ea5e9;
   --on-tertiary-container: #082f49;
   --on-primary-fixed: #ffffff;
+  --muted-foreground: #e4e4e7;
+  --soft-foreground: #a1a1aa;
+  --faint-foreground: #71717a;
+  --panel: rgb(24 24 27 / 0.72);
+  --panel-soft: rgb(24 24 27 / 0.56);
+  --panel-strong: rgb(39 39 42 / 0.82);
+  --panel-border: rgb(63 63 70 / 0.5);
+  --header-background: rgb(9 9 11 / 0.68);
+  --footer-background: #09090b;
 }
 
 html.light {
@@ -48,6 +57,15 @@ html.light {
   --tertiary-container: #4ac9dc;
   --on-tertiary-container: #001f29;
   --on-primary-fixed: #3d0e1f;
+  --muted-foreground: #34343d;
+  --soft-foreground: #625d68;
+  --faint-foreground: #8b828b;
+  --panel: rgb(255 255 255 / 0.82);
+  --panel-soft: rgb(245 245 244 / 0.7);
+  --panel-strong: rgb(241 241 240 / 0.92);
+  --panel-border: rgb(215 204 200 / 0.7);
+  --header-background: rgb(250 250 249 / 0.78);
+  --footer-background: #f5f5f4;
 }
 
 @theme inline {
@@ -74,6 +92,9 @@ html.light {
   --color-tertiary-container: var(--tertiary-container);
   --color-on-tertiary-container: var(--on-tertiary-container);
   --color-on-primary-fixed: var(--on-primary-fixed);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-soft-foreground: var(--soft-foreground);
+  --color-faint-foreground: var(--faint-foreground);
   --font-sans: var(--font-plus-jakarta);
   --font-headline: var(--font-plus-jakarta);
   --font-body: var(--font-plus-jakarta);
@@ -133,27 +154,65 @@ html.light ::selection {
   color: rgb(28 27 31);
 }
 
-/* Theme-aware header styling */
-header {
-  background-color: rgb(250 250 249 / 0.6);
-  color: rgb(28 27 31);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-html.dark header {
-  background-color: rgb(9 9 11 / 0.6);
-  color: rgb(250 250 249);
-}
-
 .glass-panel {
   background: rgb(24 24 27 / 0.72);
   backdrop-filter: blur(24px);
 }
 
 .section-shell {
-  border: 1px solid rgb(39 39 42 / 0.8);
-  background: linear-gradient(180deg, rgb(24 24 27 / 0.65), rgb(9 9 11 / 0.85));
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, var(--panel), color-mix(in srgb, var(--background) 88%, transparent));
   backdrop-filter: blur(20px);
+}
+
+.theme-header {
+  background-color: var(--header-background);
+  border-bottom: 1px solid var(--panel-border);
+  color: var(--foreground);
+}
+
+.theme-footer {
+  background-color: var(--footer-background);
+  border-color: var(--panel-border);
+}
+
+.theme-panel {
+  border: 1px solid var(--panel-border);
+  background-color: var(--panel);
+  backdrop-filter: blur(24px);
+}
+
+.theme-panel-soft {
+  border: 1px solid var(--panel-border);
+  background-color: var(--panel-soft);
+  backdrop-filter: blur(20px);
+}
+
+.theme-panel-strong {
+  border: 1px solid var(--panel-border);
+  background-color: var(--panel-strong);
+  backdrop-filter: blur(24px);
+}
+
+.theme-frame {
+  border: 1px solid var(--panel-border);
+  background-color: var(--panel-soft);
+}
+
+.theme-text {
+  color: var(--foreground);
+}
+
+.theme-text-muted {
+  color: var(--muted-foreground);
+}
+
+.theme-text-soft {
+  color: var(--soft-foreground);
+}
+
+.theme-text-faint {
+  color: var(--faint-foreground);
 }
 
 .hide-scrollbar {

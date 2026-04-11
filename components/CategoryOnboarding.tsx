@@ -37,9 +37,9 @@ export function CategoryOnboarding() {
   if (authLoading || !isAuthenticated || !user || preferences.length > 0) return null;
 
   async function handleSave() {
-    if (selected.length === 0) return;
+    if (selected.length === 0 || !user) return;
     setLoading(true);
-    await updateUserProfile(user!.uid, { preferences: selected });
+    await updateUserProfile(user.uid, { preferences: selected });
     setPreferences(selected);
     setLoading(false);
   }
@@ -51,14 +51,14 @@ export function CategoryOnboarding() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-surface-container p-6 shadow-2xl">
-        <h2 className="mb-2 font-headline text-2xl font-bold text-white">Curate Your Vibe</h2>
-        <p className="mb-6 text-sm text-white/60">
+      <div className="theme-panel w-full max-w-md rounded-2xl p-6 shadow-2xl">
+        <h2 className="mb-2 font-headline text-2xl font-bold text-foreground">Curate Your Vibe</h2>
+        <p className="mb-6 text-sm text-soft-foreground">
           Select categories from our catalog to tune your discovery feed. (Loaded from your Firestore products.)
         </p>
         <div className="mb-8 flex flex-wrap gap-2">
           {loadingCategories ? (
-            <p className="text-sm text-white/45">Loading categories…</p>
+            <p className="text-sm text-faint-foreground">Loading categories...</p>
           ) : (
             categories.map((cat) => {
               const active = selected.includes(cat);
@@ -70,7 +70,7 @@ export function CategoryOnboarding() {
                   className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${
                     active
                       ? "border-primary bg-primary text-background"
-                      : "border-white/20 text-white/80 hover:border-white/50"
+                      : "border-outline text-soft-foreground hover:border-primary/50 hover:text-foreground"
                   }`}
                 >
                   {cat}
@@ -79,7 +79,11 @@ export function CategoryOnboarding() {
             })
           )}
         </div>
-        <Button onClick={() => void handleSave()} disabled={selected.length === 0 || loading || loadingCategories} className="w-full">
+        <Button
+          onClick={() => void handleSave()}
+          disabled={selected.length === 0 || loading || loadingCategories}
+          className="w-full"
+        >
           {loading ? "Saving..." : "Start Swiping"}
         </Button>
       </div>

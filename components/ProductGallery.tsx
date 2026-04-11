@@ -11,7 +11,7 @@ export function ProductGallery({ product }: { product: Product }) {
 
   return (
     <div className="grid gap-4">
-      <div className="relative overflow-hidden rounded-[28px] border border-primary/15 bg-black/20" style={{ aspectRatio: "4 / 5" }}>
+      <div className="theme-panel relative overflow-hidden rounded-[28px]" style={{ aspectRatio: "4 / 5" }}>
         <Image
           src={activeImage}
           alt={product.shortDescription}
@@ -27,8 +27,8 @@ export function ProductGallery({ product }: { product: Product }) {
             key={image}
             type="button"
             className={cn(
-              "relative overflow-hidden rounded-[22px] border bg-black/20 transition",
-              activeImage === image ? "border-primary/40 shadow-[0_0_28px_rgba(255,138,169,0.18)]" : "border-white/6",
+              "theme-panel-soft relative overflow-hidden rounded-[22px] transition",
+              activeImage === image ? "border-primary/40 shadow-[0_0_28px_rgba(255,138,169,0.18)]" : "",
             )}
             style={{ aspectRatio: "1 / 1" }}
             onClick={() => setActiveImage(image)}

@@ -12,7 +12,7 @@ export default function LoginPage() {
           <div className="font-headline text-sm font-bold uppercase tracking-[0.32em] text-primary">
             SwiplyKart
           </div>
-          <p className="mt-4 text-white/45">Where Shopping Meets Your Vibe</p>
+          <p className="mt-4 text-soft-foreground">Where Shopping Meets Your Vibe</p>
         </div>
         <AuthForm mode="login" />
       </div>

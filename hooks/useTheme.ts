@@ -1,104 +1,139 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { createContext, createElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
+
 import { useAuth } from "./useAuth";
 import { getUserProfile, updateUserPreference } from "@/services/userService";
 
 export type Theme = "light" | "dark";
 
-interface ThemeContextType {
+type ThemeContextType = {
   theme: Theme;
   setTheme: (theme: Theme) => Promise<void>;
   isLoading: boolean;
-}
+};
 
 const THEME_KEY = "theme-preference";
+const ThemeContext = createContext<ThemeContextType | null>(null);
+
+function isTheme(value: string | null): value is Theme {
+  return value === "light" || value === "dark";
+}
+
+function getStoredTheme(): Theme | null {
+  if (typeof window === "undefined") return null;
+  const stored = window.localStorage.getItem(THEME_KEY);
+  return isTheme(stored) ? stored : null;
+}
 
 function getSystemTheme(): Theme {
   if (typeof window === "undefined") return "dark";
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
-export function useTheme(): ThemeContextType {
+function applyThemeToDom(theme: Theme) {
+  if (typeof document === "undefined") return;
+  const html = document.documentElement;
+  html.classList.remove("light", "dark");
+  html.classList.add(theme);
+  html.dataset.theme = theme;
+}
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const [theme, setThemeState] = useState<Theme>("dark");
   const [isLoading, setIsLoading] = useState(true);
-  const [isMounted, setIsMounted] = useState(false);
 
-  // Initialize theme
   useEffect(() => {
-    setIsMounted(true);
-    
+    const initialTheme = getStoredTheme() ?? getSystemTheme();
+    setThemeState(initialTheme);
+    applyThemeToDom(initialTheme);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
     async function initTheme() {
+      const fallbackTheme = getStoredTheme() ?? getSystemTheme();
+      setIsLoading(true);
+
       try {
-        // If user is logged in, get theme from Firebase
         if (user) {
           const profile = await getUserProfile(user.uid);
-          if (profile?.theme) {
-            setThemeState(profile.theme as Theme);
+          if (cancelled) return;
+
+          const rawTheme = profile?.theme ?? null;
+          const profileTheme = isTheme(rawTheme) ? rawTheme : null;
+
+          if (profileTheme) {
+            setThemeState(profileTheme);
+            window.localStorage.setItem(THEME_KEY, profileTheme);
           } else {
-            // Use system preference if no saved preference
-            const systemTheme = getSystemTheme();
-            setThemeState(systemTheme);
-            // Save to Firebase
+            setThemeState(fallbackTheme);
+            window.localStorage.setItem(THEME_KEY, fallbackTheme);
             try {
-              await updateUserPreference(user.uid, { theme: systemTheme });
+              await updateUserPreference(user.uid, { theme: fallbackTheme });
             } catch (error) {
               console.error("Error saving initial theme to Firebase:", error);
             }
           }
         } else {
-          // Guest user: check localStorage first, then system preference
-          const saved = localStorage.getItem(THEME_KEY);
-          if (saved) {
-            setThemeState(saved as Theme);
-          } else {
-            const systemTheme = getSystemTheme();
-            setThemeState(systemTheme);
-            localStorage.setItem(THEME_KEY, systemTheme);
-          }
+          setThemeState(fallbackTheme);
+          window.localStorage.setItem(THEME_KEY, fallbackTheme);
         }
       } catch (error) {
         console.error("Error initializing theme:", error);
-        setThemeState("dark"); // Fallback
+        if (!cancelled) {
+          setThemeState(fallbackTheme);
+        }
       } finally {
-        setIsLoading(false);
+        if (!cancelled) {
+          setIsLoading(false);
+        }
       }
     }
 
-    initTheme();
+    void initTheme();
+
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
 
-  // Apply theme to DOM
   useEffect(() => {
-    if (!isMounted) return;
-    
-    const html = document.documentElement;
-    if (theme === "dark") {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
+    applyThemeToDom(theme);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(THEME_KEY, theme);
     }
-    
-    // Store in localStorage for guest users
-    if (!user) {
-      localStorage.setItem(THEME_KEY, theme);
+  }, [theme]);
+
+  const setTheme = useCallback(async (nextTheme: Theme) => {
+    setThemeState(nextTheme);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(THEME_KEY, nextTheme);
     }
-  }, [theme, user, isMounted]);
 
-  const setTheme = async (newTheme: Theme) => {
-    setThemeState(newTheme);
+    if (!user) return;
 
-    if (user) {
-      try {
-        await updateUserPreference(user.uid, { theme: newTheme });
-      } catch (error) {
-        console.error("Error saving theme preference:", error);
-      }
-    } else {
-      localStorage.setItem(THEME_KEY, newTheme);
+    try {
+      await updateUserPreference(user.uid, { theme: nextTheme });
+    } catch (error) {
+      console.error("Error saving theme preference:", error);
     }
-  };
+  }, [user]);
 
-  return { theme, setTheme, isLoading };
+  const value = useMemo(
+    () => ({ theme, setTheme, isLoading }),
+    [theme, setTheme, isLoading],
+  );
+
+  return createElement(ThemeContext.Provider, { value }, children);
+}
+
+export function useTheme(): ThemeContextType {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within ThemeProvider.");
+  }
+  return context;
 }

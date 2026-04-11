@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { Globe, Mail, Sparkles } from "lucide-react";
+
 import { useAuth } from "@/hooks/useAuth";
 import { brandLogo } from "@/lib/brandAssets";
 import { cn } from "@/lib/utils";
@@ -13,21 +14,26 @@ export function Footer() {
   const { user, loading } = useAuth();
 
   return (
-    <footer className="relative w-full overflow-hidden border-t border-zinc-800/40 bg-zinc-950">
+    <footer className="theme-footer relative w-full overflow-hidden border-t">
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_100%,rgb(109_40_217/0.22),transparent_55%),radial-gradient(ellipse_60%_50%_at_80%_20%,rgb(236_72_153/0.12),transparent_45%)]"
         aria-hidden
       />
-      <div className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[min(100%,720px)] -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-600/25 via-fuchsia-500/20 to-pink-500/25 blur-3xl" aria-hidden />
+      <div
+        className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[min(100%,720px)] -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-600/25 via-fuchsia-500/20 to-pink-500/25 blur-3xl"
+        aria-hidden
+      />
 
       <div className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center px-6 pb-14 pt-16 md:px-10 md:pb-16 md:pt-20">
         <div className="relative mb-10 flex flex-col items-center md:mb-12">
           <div
             className="pointer-events-none absolute -inset-16 opacity-[0.35] brand-orbit-slow"
             style={{
-              background: "conic-gradient(from 180deg, transparent, rgb(192 38 211 / 0.15), transparent 40%, rgb(139 92 246 / 0.12), transparent 70%)",
+              background:
+                "conic-gradient(from 180deg, transparent, rgb(192 38 211 / 0.15), transparent 40%, rgb(139 92 246 / 0.12), transparent 70%)",
               maskImage: "radial-gradient(circle, transparent 42%, black 48%, black 52%, transparent 58%)",
-              WebkitMaskImage: "radial-gradient(circle, transparent 42%, black 48%, black 52%, transparent 58%)",
+              WebkitMaskImage:
+                "radial-gradient(circle, transparent 42%, black 48%, black 52%, transparent 58%)",
             }}
             aria-hidden
           />
@@ -56,26 +62,28 @@ export function Footer() {
                 width={280}
                 height={280}
                 unoptimized
-                className="brand-logo-float mx-auto h-auto w-full max-w-[200px] md:max-w-xs object-contain"
+                className="brand-logo-float mx-auto h-auto w-full max-w-[200px] object-contain md:max-w-xs"
               />
             </div>
           </div>
 
           <p className="mt-6 text-center font-headline text-lg font-black uppercase tracking-[0.35em] text-transparent md:text-xl md:tracking-[0.4em]">
-            <span className="bg-gradient-to-r from-violet-200 via-fuchsia-300 to-pink-400 bg-clip-text">SwiplyKart</span>
+            <span className="bg-gradient-to-r from-violet-200 via-fuchsia-300 to-pink-400 bg-clip-text">
+              SwiplyKart
+            </span>
           </p>
 
           {user ? (
-            <p className="mt-5 max-w-md text-center text-sm text-zinc-500">
-              Thanks for flowing with us — your drops, your vibe.
+            <p className="mt-5 max-w-md text-center text-sm text-faint-foreground">
+              Thanks for flowing with us - your drops, your vibe.
             </p>
           ) : loading ? (
-            <p className="mt-5 text-center text-sm text-zinc-600">Loading your session…</p>
+            <p className="mt-5 text-center text-sm text-faint-foreground">Loading your session...</p>
           ) : (
             <div className="mt-5 flex max-w-md flex-col items-center gap-2 text-center">
-              <p className="flex items-center gap-2 text-sm font-medium text-zinc-400">
+              <p className="flex items-center gap-2 text-sm font-medium text-soft-foreground">
                 <Sparkles className="size-4 shrink-0 text-fuchsia-400/90" aria-hidden />
-                You&apos;re browsing as a guest — saves &amp; a tuned feed unlock when you join.
+                You&apos;re browsing as a guest - saves and a tuned feed unlock when you join.
               </p>
               <Link
                 href="/auth/login"
@@ -86,18 +94,22 @@ export function Footer() {
             </div>
           )}
 
-          <p className="mt-4 max-w-lg text-center font-body text-xs uppercase leading-relaxed tracking-[0.2em] text-zinc-500">
+          <p className="mt-4 max-w-lg text-center font-body text-xs uppercase leading-relaxed tracking-[0.2em] text-faint-foreground">
             The neon curator · discovery built for modern collectors
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-8 border-t border-zinc-800/50 pt-10 md:gap-12">
-          <span className="font-headline text-[10px] uppercase tracking-widest text-zinc-600">Terms</span>
-          <span className="font-headline text-[10px] uppercase tracking-widest text-zinc-600">Privacy</span>
-          <span className="font-headline text-[10px] uppercase tracking-widest text-zinc-600">Shipping</span>
+        <div className="flex flex-wrap justify-center gap-8 border-t border-outline/50 pt-10 md:gap-12">
+          <span className="font-headline text-[10px] uppercase tracking-widest text-faint-foreground">Terms</span>
+          <span className="font-headline text-[10px] uppercase tracking-widest text-faint-foreground">
+            Privacy
+          </span>
+          <span className="font-headline text-[10px] uppercase tracking-widest text-faint-foreground">
+            Shipping
+          </span>
           <Link
             href="/auth/login"
-            className="font-headline text-[10px] uppercase tracking-widest text-zinc-600 transition-colors hover:text-fuchsia-300"
+            className="font-headline text-[10px] uppercase tracking-widest text-faint-foreground transition-colors hover:text-fuchsia-300"
           >
             Help
           </Link>
@@ -105,13 +117,13 @@ export function Footer() {
 
         <div className="mt-6 flex gap-4">
           <span
-            className="flex size-10 cursor-default items-center justify-center rounded-xl border border-zinc-800/80 bg-zinc-900/80 text-zinc-500"
+            className="theme-panel-soft flex size-10 cursor-default items-center justify-center rounded-xl text-faint-foreground"
             aria-hidden
           >
             <Globe className="size-[18px]" strokeWidth={1.75} />
           </span>
           <span
-            className="flex size-10 cursor-default items-center justify-center rounded-xl border border-zinc-800/80 bg-zinc-900/80 text-zinc-500"
+            className="theme-panel-soft flex size-10 cursor-default items-center justify-center rounded-xl text-faint-foreground"
             aria-hidden
           >
             <Mail className="size-[18px]" strokeWidth={1.75} />
@@ -120,7 +132,7 @@ export function Footer() {
 
         <div className="mt-10 flex items-center gap-2 opacity-60">
           <Image src={brandLogo} alt="" width={28} height={28} unoptimized className="size-7 object-contain" />
-          <p className="font-headline text-[10px] uppercase tracking-widest text-zinc-600">
+          <p className="font-headline text-[10px] uppercase tracking-widest text-faint-foreground">
             © {new Date().getFullYear()} SwiplyKart · all rights reserved
           </p>
         </div>

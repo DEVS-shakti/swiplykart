@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
 
+import { Providers } from "@/components/Providers";
 import { brandAppleTouchIcon, brandIconsForMetadata } from "@/lib/brandAssets";
+import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -11,7 +12,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "SwiplyKart",
+  title: "SWIPLYKART",
   description: "Where Shopping Meets Your Vibe",
   icons: {
     icon: [...brandIconsForMetadata],
@@ -19,7 +20,21 @@ export const metadata: Metadata = {
   },
 };
 
-import { Providers } from "@/components/Providers";
+const themeInitScript = `
+(() => {
+  try {
+    const stored = localStorage.getItem("theme-preference");
+    const theme =
+      stored === "light" || stored === "dark"
+        ? stored
+        : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    const html = document.documentElement;
+    html.classList.remove("light", "dark");
+    html.classList.add(theme);
+    html.dataset.theme = theme;
+  } catch {}
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -29,10 +44,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} dark h-full antialiased`}
+      className={`${plusJakartaSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full bg-background text-on-background" suppressHydrationWarning>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <Providers>
           {children}
         </Providers>

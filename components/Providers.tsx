@@ -1,18 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
+
+import { AppCheckInit } from "./AppCheckInit";
+import { CategoryOnboarding } from "./CategoryOnboarding";
 import { useAuth } from "@/hooks/useAuth";
-import { useTheme } from "@/hooks/useTheme";
+import { ThemeProvider } from "@/hooks/useTheme";
 import { getUserProfile, createUserProfile } from "@/services/userService";
 import { useStore } from "@/store/useStore";
-
-function ThemeInitializer() {
-  const { isLoading: themeLoading } = useTheme();
-
-  // Theme is initialized in useTheme hook
-  // This component just ensures the hook runs at the provider level
-  return null;
-}
 
 function AuthSync() {
   const { user, isAuthenticated } = useAuth();
@@ -33,7 +28,7 @@ function AuthSync() {
         });
         profile = { uid: user.uid, preferences: [], likedProducts: [], savedProducts: [] };
       }
-      
+
       syncFromFirebase({
         likes: profile.likedProducts || [],
         saved: profile.savedProducts || [],
@@ -47,17 +42,13 @@ function AuthSync() {
   return null;
 }
 
-import { AppCheckInit } from "./AppCheckInit";
-import { CategoryOnboarding } from "./CategoryOnboarding";
-
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <ThemeProvider>
       <AppCheckInit />
-      <ThemeInitializer />
       <AuthSync />
       <CategoryOnboarding />
       {children}
-    </>
+    </ThemeProvider>
   );
 }
