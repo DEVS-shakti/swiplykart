@@ -3,9 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Globe, Mail, Sparkles } from "lucide-react";
-
 import { useAuth } from "@/hooks/useAuth";
-import { brandIconSrc } from "@/lib/brandAssets";
+import { brandLogo } from "@/lib/brandAssets";
 import { cn } from "@/lib/utils";
 
 const sparkleAngles = [-18, 6, 30, 54];
@@ -33,7 +32,7 @@ export function Footer() {
             aria-hidden
           />
 
-          <div className="relative">
+          <div className="relative flex flex-col items-center justify-center">
             <div className="pointer-events-none absolute -right-6 -top-6 z-20 h-24 w-24 md:-right-10 md:-top-10 md:h-32 md:w-32">
               {sparkleAngles.map((deg, i) => (
                 <span
@@ -50,14 +49,14 @@ export function Footer() {
               ))}
             </div>
 
-            <div className="relative w-full max-w-[min(22rem,88vw)] p-3 md:max-w-[min(28rem,90vw)] md:p-6">
+            <div className="relative flex items-center justify-center">
               <Image
-                src={brandIconSrc}
+                src={brandLogo}
                 alt="SwiplyKart"
-                width={320}
-                height={320}
+                width={280}
+                height={280}
                 unoptimized
-                className="brand-logo-float mx-auto h-auto w-full max-h-[min(52vh,320px)] object-contain md:max-h-[min(48vh,360px)]"
+                className="brand-logo-float mx-auto h-auto w-full max-w-[200px] md:max-w-xs object-contain"
               />
             </div>
           </div>
@@ -120,7 +119,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex items-center gap-2 opacity-60">
-          <Image src={brandIconSrc} alt="" width={28} height={28} unoptimized className="size-7 object-contain" />
+          <Image src={brandLogo} alt="" width={28} height={28} unoptimized className="size-7 object-contain" />
           <p className="font-headline text-[10px] uppercase tracking-widest text-zinc-600">
             © {new Date().getFullYear()} SwiplyKart · all rights reserved
           </p>

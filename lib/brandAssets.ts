@@ -3,6 +3,7 @@
  * Use `unoptimized` on `next/image` for this asset so alpha isn’t flattened by the optimizer.
  * For the sharpest favicons, keep `icon.png` at least ~512×512; browsers downscale as needed.
  */
+export const brandLogo = "/Logo.png";
 export const brandIconSrc = "/icon.png";
 
 /** Declared sizes so browsers / “Add to Home Screen” can pick a crisp icon (same asset scales). */

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
-import { Grid2x2, Heart, House, LogOut, Search, Shield, ShoppingCart, Sparkles, UserRound } from "lucide-react";
+import { Grid2x2, Heart, House, LogOut, Moon, Search, Shield, ShoppingCart, Sparkles, Sun, UserRound } from "lucide-react";
 
 import Image from "next/image";
 import { type FormEvent, useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { brandIconSrc } from "@/lib/brandAssets";
 import { cn } from "@/lib/utils";
 import { auth } from "@/firebase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/hooks/useTheme";
 import { getUserProfile } from "@/services/userService";
 
 const topLinks = [
@@ -31,6 +32,7 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, loading } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -58,25 +60,25 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full bg-zinc-950/60 shadow-[0px_0px_15px_rgba(255,137,171,0.15)] backdrop-blur-xl">
-        <nav className="mx-auto flex h-20 w-full max-w-[1920px] items-center justify-between px-6">
+      <header className="fixed top-0 z-50 w-full bg-zinc-950/60 shadow-[0px_0px_15px_rgba(255,137,171,0.15)] dark:shadow-[0px_0px_15px_rgba(255,137,171,0.15)] backdrop-blur-xl transition-colors duration-300 dark:bg-zinc-950/60">
+        <nav className="mx-auto flex h-20 w-full max-w-[1920px] items-center justify-between px-6 dark:text-zinc-100">
           <div className="flex items-center gap-8">
             <Link
               href="/"
-              className="group flex items-center gap-3 font-headline text-xl font-black tracking-[0.18em] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              className="group flex items-center justify-center gap-2 font-headline text-lg md:text-xl font-black tracking-[0.18em] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
-              <Image
-                src={brandIconSrc}
-                alt=""
-                width={72}
-                height={72}
-                unoptimized
-                className="size-12 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 md:size-18"
-                priority
-              />
-              <span className="bg-gradient-to-r from-violet-200 via-fuchsia-300 to-pink-400 bg-clip-text 
-              letter-spacing-tight
-              text-transparent drop-shadow-[0_0_20px_rgba(192,38,211,0.25)]">
+              <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 shrink-0">
+                <Image
+                  src={brandIconSrc}
+                  alt="SwiplyKart"
+                  width={56}
+                  height={56}
+                  unoptimized
+                  className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                  priority
+                />
+              </div>
+              <span className="hidden sm:inline bg-gradient-to-r from-violet-200 via-fuchsia-300 to-pink-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(192,38,211,0.25)]">
                 SWIPLYKART
               </span>
             </Link>
@@ -114,18 +116,35 @@ export function Navbar() {
           <div className="flex items-center gap-6">
             <form
               onSubmit={onSearchSubmit}
-              className="hidden items-center rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2 transition-all focus-within:border-pink-500 lg:flex"
+              className="hidden items-center rounded-lg border border-zinc-800 dark:border-zinc-800 bg-zinc-900 dark:bg-zinc-900 px-4 py-2 transition-all focus-within:border-pink-500 lg:flex"
             >
-              <Search className="size-[18px] text-zinc-500" aria-hidden />
+              <Search className="size-[18px] text-zinc-500 dark:text-zinc-500" aria-hidden />
               <input
                 name="q"
                 type="search"
                 placeholder="Search vibes..."
-                className="ml-2 w-48 border-none bg-transparent text-sm text-zinc-100 placeholder:text-zinc-500 focus:ring-0 focus:outline-none"
+                className="ml-2 w-48 border-none bg-transparent dark:bg-transparent text-sm text-zinc-100 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:ring-0 focus:outline-none"
                 autoComplete="off"
               />
             </form>
             <div className="flex items-center gap-4">
+              <button
+                type="button"
+                onClick={() => void setTheme(theme === "dark" ? "light" : "dark")}
+                className={`transition-all duration-300 hover:scale-110 ${
+                  theme === "dark"
+                    ? "text-zinc-400 hover:text-pink-500"
+                    : "text-zinc-600 hover:text-rose-500"
+                }`}
+                aria-label="Toggle theme"
+                title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              >
+                {theme === "dark" ? (
+                  <Sun className="size-[22px]" strokeWidth={1.75} />
+                ) : (
+                  <Moon className="size-[22px]" strokeWidth={1.75} />
+                )}
+              </button>
               <Link
                 href="/products"
                 className="text-zinc-400 transition-all duration-300 hover:scale-110 hover:text-pink-500"

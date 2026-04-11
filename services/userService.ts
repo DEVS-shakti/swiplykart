@@ -34,6 +34,11 @@ export async function updateUserProfile(uid: string, data: Partial<UserProfile>)
   await updateDoc(docRef, data as Record<string, unknown>);
 }
 
+export async function updateUserPreference(uid: string, data: Partial<UserProfile>): Promise<void> {
+  const docRef = doc(db, USERS_COLLECTION, uid);
+  await updateDoc(docRef, data as Record<string, unknown>);
+}
+
 export async function trackUserInteraction(
   uid: string,
   interactionType: "like" | "save" | "dislike",

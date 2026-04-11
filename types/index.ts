@@ -35,6 +35,7 @@ export type UserProfile = {
   dislikedProducts?: string[];
   displayName?: string;
   role?: "admin" | "user";
+  theme?: "light" | "dark";
 };
 
 export type ClickEvent = {

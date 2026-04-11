@@ -2,8 +2,17 @@
 
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/hooks/useTheme";
 import { getUserProfile, createUserProfile } from "@/services/userService";
 import { useStore } from "@/store/useStore";
+
+function ThemeInitializer() {
+  const { isLoading: themeLoading } = useTheme();
+
+  // Theme is initialized in useTheme hook
+  // This component just ensures the hook runs at the provider level
+  return null;
+}
 
 function AuthSync() {
   const { user, isAuthenticated } = useAuth();
@@ -45,6 +54,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>
       <AppCheckInit />
+      <ThemeInitializer />
       <AuthSync />
       <CategoryOnboarding />
       {children}
