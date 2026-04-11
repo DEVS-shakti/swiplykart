@@ -13,7 +13,7 @@ import { LockKeyhole, Mail, Sparkles, UserRound } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { auth, getFirebaseAnalytics, googleProvider } from "@/lib/firebase";
+import { auth, getFirebaseAnalytics, googleProvider } from "@/firebase/client";
 import { createUserProfile } from "@/services/userService";
 
 type AuthFormProps = {

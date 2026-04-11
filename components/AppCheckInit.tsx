@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { initFirebaseAppCheck } from "@/lib/firebase";
+import { initFirebaseAppCheck } from "@/firebase/client";
 
 export function AppCheckInit() {
   useEffect(() => {

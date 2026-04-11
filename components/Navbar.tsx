@@ -10,7 +10,7 @@ import { type FormEvent, useEffect, useState } from "react";
 
 import { brandIconSrc } from "@/lib/brandAssets";
 import { cn } from "@/lib/utils";
-import { auth } from "@/lib/firebase";
+import { auth } from "@/firebase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { getUserProfile } from "@/services/userService";
 
