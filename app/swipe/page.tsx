@@ -1,13 +1,14 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SwipeExperience } from "@/components/SwipeExperience";
-import { getProducts } from "@/lib/db";
+import { getProducts } from "@/services/productService";
 
-export default function SwipePage() {
+export default async function SwipePage() {
+  const { products } = await getProducts(20);
   return (
     <div className="min-h-screen">
       <Navbar />
-      <SwipeExperience products={getProducts()} />
+      <SwipeExperience products={products} />
       <Footer />
     </div>
   );

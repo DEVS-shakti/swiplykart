@@ -6,8 +6,9 @@ import { Bookmark, Heart, Sparkles, X } from "lucide-react";
 
 import { SwipeCard } from "@/components/SwipeCard";
 import { Button } from "@/components/ui/button";
-import type { Product } from "@/lib/db";
+import { Product } from "@/types";
 import { useStore } from "@/store/useStore";
+import { useAuth } from "@/hooks/useAuth";
 
 const swipeThreshold = 120;
 
@@ -38,6 +39,17 @@ export function SwipeExperience({ products }: SwipeExperienceProps) {
     setIndex((current) => (current + 1 >= products.length ? 0 : current + 1));
   }
 
+  const { user } = useAuth();
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'ArrowRight') react('liked');
+      else if (e.key === 'ArrowLeft') react('disliked');
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [index, products]);
+
   function react(action: "liked" | "disliked" | "saved") {
     const current = products[index];
 
@@ -49,6 +61,7 @@ export function SwipeExperience({ products }: SwipeExperienceProps) {
 
     if (action === "liked") {
       likeProduct(current.id);
+      if (user) import("@/services/userService").then(s => s.trackUserInteraction(user.uid, "like", current.id));
       advance();
     }
 
@@ -59,6 +72,7 @@ export function SwipeExperience({ products }: SwipeExperienceProps) {
 
     if (action === "saved") {
       toggleSaved(current.id);
+      if (user) import("@/services/userService").then(s => s.trackUserInteraction(user.uid, "save", current.id));
     }
 
     setFeedback(action);
@@ -84,6 +98,24 @@ export function SwipeExperience({ products }: SwipeExperienceProps) {
       </div>
       <div className="relative z-10 flex w-full flex-col items-center gap-10">
         <div className="relative h-[70vh] max-h-[680px] w-full max-w-[420px]">
+          <Button 
+            variant="secondary" 
+            size="icon" 
+            onClick={() => react("disliked")} 
+            className="absolute -left-24 top-1/2 -translate-y-1/2 hidden md:flex rounded-full w-14 h-14 bg-white/5 hover:bg-white/10 border-white/10"
+          >
+            <span className="text-2xl font-bold">&lt;</span>
+          </Button>
+          
+          <Button 
+            variant="secondary" 
+            size="icon" 
+            onClick={() => react("liked")} 
+            className="absolute -right-24 top-1/2 -translate-y-1/2 hidden md:flex rounded-full w-14 h-14 bg-white/5 hover:bg-white/10 border-white/10 text-primary"
+          >
+            <span className="text-2xl font-bold">&gt;</span>
+          </Button>
+
           {visible
             .slice()
             .reverse()

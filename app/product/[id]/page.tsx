@@ -7,10 +7,11 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { Button } from "@/components/ui/button";
 import { VibeTag } from "@/components/VibeTag";
 import { ViewTracker } from "@/components/ViewTracker";
-import { getProductById, getProducts, getRelatedProducts } from "@/lib/db";
+import { getProductById, getProducts, getRelatedProducts } from "@/services/productService";
 
-export function generateStaticParams() {
-  return getProducts().map((product) => ({ id: product.id }));
+export async function generateStaticParams() {
+  const { products } = await getProducts(50);
+  return products.map((product) => ({ id: product.id }));
 }
 
 export default async function ProductDetailPage({
@@ -19,13 +20,13 @@ export default async function ProductDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await getProductById(id);
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = getRelatedProducts(product);
+  const relatedProducts = await getRelatedProducts(product);
 
   return (
     <div className="min-h-screen">

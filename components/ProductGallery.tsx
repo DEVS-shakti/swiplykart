@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import type { Product } from "@/lib/db";
+import { Product } from "@/types";
 import { cn } from "@/lib/utils";
 
 export function ProductGallery({ product }: { product: Product }) {

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Grid2x2, Heart, House, Sparkles, UserRound } from "lucide-react";
 
+import Image from "next/image";
+
 import { cn } from "@/lib/utils";
 
 const topLinks = [
@@ -26,7 +28,8 @@ export function Navbar() {
     <>
       <header className="sticky top-0 z-50 border-b border-white/6 bg-background/80 backdrop-blur-2xl">
         <nav className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 md:px-8">
-          <Link href="/" className="font-headline text-xl font-extrabold uppercase tracking-[0.28em] text-white">
+          <Link href="/" className="flex items-center gap-3 font-headline text-xl font-extrabold uppercase tracking-[0.28em] text-white">
+            <Image src="/icon.png" alt="Logo" width={28} height={28} className="rounded" />
             SwiplyKart
           </Link>
           <div className="hidden items-center gap-10 md:flex">

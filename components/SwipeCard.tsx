@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { VibeTag } from "@/components/VibeTag";
-import type { Product } from "@/lib/db";
+import { Product } from "@/types";
 
 export function SwipeCard({ product }: { product: Product }) {
   return (
@@ -27,12 +27,22 @@ export function SwipeCard({ product }: { product: Product }) {
             ${product.price}
           </div>
         </div>
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap gap-2 mb-4">
           {product.vibes.map((vibe, index) => (
             <VibeTag key={vibe} label={vibe} accent={index === 0 ? product.accent : "secondary"} />
           ))}
         </div>
-        <p className="mt-4 text-sm leading-7 text-white/65">{product.description}</p>
+        <p className="mt-4 text-sm leading-7 text-white/65 mb-4">{product.description}</p>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            window.open(product.affiliateLink || '#', "_blank");
+            import("@/services/analyticsService").then(a => a.trackClick(product.id));
+          }}
+          className="w-full rounded-2xl bg-gradient-to-r from-primary to-primary-dim p-4 text-center font-bold text-background shadow-lg transition hover:opacity-90"
+        >
+          Buy Now
+        </button>
       </div>
     </div>
   );

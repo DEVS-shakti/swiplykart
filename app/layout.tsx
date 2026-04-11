@@ -15,7 +15,12 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "SwiplyKart",
   description: "Where Shopping Meets Your Vibe",
+  icons: {
+    icon: "/icon.png",
+  },
 };
+
+import { Providers } from "@/components/Providers";
 
 export default function RootLayout({
   children,
@@ -26,8 +31,13 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${plusJakartaSans.variable} ${manrope.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full bg-background text-on-background">{children}</body>
+      <body className="min-h-full bg-background text-on-background" suppressHydrationWarning>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

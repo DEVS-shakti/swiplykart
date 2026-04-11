@@ -15,6 +15,9 @@ type SwiplyState = {
   viewProduct: (id: string) => void;
   setActiveVibe: (vibe: string) => void;
   resetPreferences: () => void;
+  preferences: string[];
+  syncFromFirebase: (data: { likes: string[]; saved: string[]; preferences: string[] }) => void;
+  setPreferences: (prefs: string[]) => void;
 };
 
 const initialState = {
@@ -23,6 +26,7 @@ const initialState = {
   saved: [] as string[],
   recentlyViewed: [] as string[],
   activeVibe: "All Drops",
+  preferences: [] as string[],
 };
 
 export const useStore = create<SwiplyState>()(
@@ -55,6 +59,13 @@ export const useStore = create<SwiplyState>()(
         })),
       setActiveVibe: (vibe) => set({ activeVibe: vibe }),
       resetPreferences: () => set(initialState),
+      setPreferences: (prefs) => set({ preferences: prefs }),
+      syncFromFirebase: (data) =>
+        set((state) => ({
+          likes: Array.from(new Set([...state.likes, ...data.likes])).slice(0, 50),
+          saved: Array.from(new Set([...state.saved, ...data.saved])).slice(0, 50),
+          preferences: data.preferences,
+        })),
     }),
     {
       name: "swiplykart-store",

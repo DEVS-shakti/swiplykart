@@ -1,21 +1,41 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
-import { getProducts, getSuggestedProducts } from "@/lib/db";
+import { getProductsByIds, getProducts } from "@/services/productService";
 import { useStore } from "@/store/useStore";
+import { Product } from "@/types";
 
 export function DashboardShell() {
   const likes = useStore((state) => state.likes);
   const recentlyViewed = useStore((state) => state.recentlyViewed);
   const resetPreferences = useStore((state) => state.resetPreferences);
-  const products = getProducts();
+  
+  const [likedProducts, setLikedProducts] = useState<Product[]>([]);
+  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [suggestedProducts, setSuggestedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const likedProducts = products.filter((product) => likes.includes(product.id));
-  const recentProducts = products.filter((product) => recentlyViewed.includes(product.id));
-  const suggestedProducts = getSuggestedProducts(
-    likedProducts.length ? likedProducts.map((product) => product.id) : recentlyViewed,
-  );
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      const [liked, recent, { products: suggested }] = await Promise.all([
+        getProductsByIds(likes),
+        getProductsByIds(recentlyViewed),
+        getProducts(4)
+      ]);
+      setLikedProducts(liked);
+      setRecentProducts(recent);
+      setSuggestedProducts(suggested);
+      setLoading(false);
+    }
+    loadData();
+  }, [likes, recentlyViewed]);
+
+  if (loading) {
+    return <div className="animate-pulse text-white/50 text-center py-20">Loading your vibe map...</div>;
+  }
 
   return (
     <div className="space-y-10">
@@ -64,7 +84,7 @@ export function DashboardShell() {
           <div>
             <h2 className="mb-5 font-headline text-2xl font-bold text-white">Recently Viewed</h2>
             <div className="grid gap-6 md:grid-cols-2">
-              {(recentProducts.length ? recentProducts : products.slice(0, 4)).slice(0, 4).map((product) => (
+              {(recentProducts.length ? recentProducts : suggestedProducts).slice(0, 4).map((product) => (
                 <ProductCard key={product.id} product={product} compact />
               ))}
             </div>

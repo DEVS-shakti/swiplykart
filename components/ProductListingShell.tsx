@@ -2,14 +2,31 @@
 
 import { ProductsFeed } from "@/components/ProductsFeed";
 import { VibeTag } from "@/components/VibeTag";
-import { getProductsByVibe, type Product, vibeFilters } from "@/lib/db";
+import { Product } from "@/types";
 import { useStore } from "@/store/useStore";
+
+export const vibeFilters = [
+  "All Drops",
+  "Cyberpunk Core",
+  "Y2K Nostalgia",
+  "Hyper-Luxe",
+  "Techwear",
+  "Minimalist Glass",
+  "Neon Pop",
+  "Digital Art",
+] as const;
 
 export function ProductListingShell({ products }: { products: Product[] }) {
   const activeVibe = useStore((state) => state.activeVibe);
   const setActiveVibe = useStore((state) => state.setActiveVibe);
 
-  const filteredProducts = activeVibe === "All Drops" ? products : getProductsByVibe(activeVibe);
+  const filteredProducts = activeVibe === "All Drops" 
+    ? products 
+    : products.filter(product => 
+        product.vibes?.some((v: string) => v.toLowerCase().includes(activeVibe.toLowerCase().replace(" core", ""))) ||
+        product.tags?.some((t: string) => t.toLowerCase().includes(activeVibe.toLowerCase().replace(" core", ""))) ||
+        product.category?.toLowerCase() === activeVibe.toLowerCase()
+      );
 
   return (
     <>

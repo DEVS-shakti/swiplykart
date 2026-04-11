@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { ProductCard } from "@/components/ProductCard";
-import type { Product } from "@/lib/db";
+import { Product } from "@/types";
 
 type ProductsFeedProps = {
   products: Product[];
