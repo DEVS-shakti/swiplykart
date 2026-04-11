@@ -38,11 +38,13 @@ function AuthSync() {
   return null;
 }
 
+import { AppCheckInit } from "./AppCheckInit";
 import { CategoryOnboarding } from "./CategoryOnboarding";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <AppCheckInit />
       <AuthSync />
       <CategoryOnboarding />
       {children}

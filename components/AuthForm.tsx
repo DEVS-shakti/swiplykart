@@ -7,12 +7,14 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 import { LockKeyhole, Mail, Sparkles, UserRound } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { auth, getFirebaseAnalytics, googleProvider } from "@/lib/firebase";
+import { createUserProfile } from "@/services/userService";
 
 type AuthFormProps = {
   mode: "login" | "signup";
@@ -35,7 +37,14 @@ export function AuthForm({ mode }: AuthFormProps) {
       if (mode === "login") {
         await signInWithEmailAndPassword(auth, email, password);
       } else {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        const display = name.trim();
+        if (display) {
+          await updateProfile(cred.user, { displayName: display });
+        }
+        await createUserProfile(cred.user.uid, {
+          displayName: display || undefined,
+        });
       }
 
       await getFirebaseAnalytics();

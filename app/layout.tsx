@@ -1,22 +1,21 @@
 import type { Metadata } from "next";
-import { Manrope, Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+
+import { brandAppleTouchIcon, brandIconsForMetadata } from "@/lib/brandAssets";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
   title: "SwiplyKart",
   description: "Where Shopping Meets Your Vibe",
   icons: {
-    icon: "/icon.png",
+    icon: [...brandIconsForMetadata],
+    apple: [...brandAppleTouchIcon],
   },
 };
 
@@ -30,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} ${manrope.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} dark h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full bg-background text-on-background" suppressHydrationWarning>

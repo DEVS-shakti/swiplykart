@@ -3,6 +3,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
+import { ALL_CATEGORIES_LABEL } from "@/utils/catalog";
+
 type SwiplyState = {
   likes: string[];
   dislikes: string[];
@@ -25,7 +27,7 @@ const initialState = {
   dislikes: [] as string[],
   saved: [] as string[],
   recentlyViewed: [] as string[],
-  activeVibe: "All Drops",
+  activeVibe: ALL_CATEGORIES_LABEL,
   preferences: [] as string[],
 };
 
@@ -35,9 +37,8 @@ export const useStore = create<SwiplyState>()(
       ...initialState,
       likeProduct: (id) =>
         set((state) => ({
-          likes: state.likes.includes(id) ? state.likes : [id, ...state.likes].slice(0, 24),
+          likes: state.likes.includes(id) ? state.likes : [id, ...state.likes].slice(0, 60),
           dislikes: state.dislikes.filter((item) => item !== id),
-          saved: state.saved.includes(id) ? state.saved : [id, ...state.saved].slice(0, 24),
         })),
       dislikeProduct: (id) =>
         set((state) => ({

@@ -10,7 +10,6 @@ export async function trackClick(productId: string, userId?: string) {
       userId: userId || null,
       timestamp: serverTimestamp(),
     });
-    console.log("Click tracked successfully", { productId, userId });
   } catch (error) {
     console.error("Failed to track click:", error);
   }

@@ -4,11 +4,11 @@ import { SwipeExperience } from "@/components/SwipeExperience";
 import { getProducts } from "@/services/productService";
 
 export default async function SwipePage() {
-  const { products } = await getProducts(20);
+  const { products } = await getProducts(24);
   return (
     <div className="min-h-screen">
       <Navbar />
-      <SwipeExperience products={products} />
+      <SwipeExperience initialProducts={products} />
       <Footer />
     </div>
   );

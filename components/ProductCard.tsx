@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Bookmark, Heart } from "lucide-react";
 
 import { VibeTag } from "@/components/VibeTag";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { trackUserInteraction } from "@/services/userService";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/store/useStore";
+import { discountPercent } from "@/utils/productDisplay";
 
 type ProductCardProps = {
   product: Product;
@@ -36,26 +38,30 @@ export function ProductCard({
   const viewProduct = useStore((state) => state.viewProduct);
 
   const { user } = useAuth();
+  const router = useRouter();
   const liked = likes.includes(product.id);
   const bookmarked = saved.includes(product.id);
+  const off = discountPercent(product);
 
   function handleLike(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
+    const wasLiked = useStore.getState().likes.includes(product.id);
     likeProduct(product.id);
-    if (user && !liked) {
-      trackUserInteraction(user.uid, "like", product.id);
+    if (user && !wasLiked) {
+      void trackUserInteraction(user.uid, "like", product.id, false);
     }
   }
 
   function handleSave(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    toggleSaved(product.id);
-    if (user) {
-      // Basic toggle interaction tracking, for simplicity assumes save state toggles tracking
-      trackUserInteraction(user.uid, "save", product.id, bookmarked);
+    if (!user) {
+      router.push("/auth/login");
+      return;
     }
+    toggleSaved(product.id);
+    void trackUserInteraction(user.uid, "save", product.id, bookmarked);
   }
 
   function handleBuy(e: React.MouseEvent) {
@@ -89,9 +95,14 @@ export function ProductCard({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-primary">{product.category}</p>
-              <h3 className="mt-2 font-headline text-xl font-bold text-white">{product.name || product.title}</h3>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-primary">{product.category}</p>
+                {off !== null ? (
+                  <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-extrabold text-background">−{off}%</span>
+                ) : null}
+              </div>
+              <h3 className="mt-2 line-clamp-2 font-headline text-xl font-bold text-white">{product.name || product.title}</h3>
               <p className="mt-1 text-sm text-white/60">${product.price?.toFixed(2)}</p>
             </div>
           </div>
@@ -105,7 +116,7 @@ export function ProductCard({
             )}
             onClick={handleLike}
           >
-            {liked ? <Heart className="size-4 fill-current" /> : <Plus className="size-5" />}
+            <Heart className={cn("size-5", liked && "fill-current")} />
           </Button>
         ) : null}
       </div>
@@ -127,11 +138,12 @@ export function ProductCard({
             className={cn(
               "inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors",
               bookmarked ? "text-tertiary" : "text-white/45 hover:text-white",
+              !user && "opacity-70",
             )}
             onClick={handleSave}
           >
-            <Heart className={cn("size-4", bookmarked && "fill-current")} />
-            {bookmarked ? "Saved" : "Save vibe"}
+            <Bookmark className={cn("size-4", bookmarked && "fill-current")} />
+            {bookmarked ? "Saved" : "Save"}
           </button>
           
           <button

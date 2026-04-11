@@ -1,27 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --background: #160628;
-  --surface: #160628;
-  --surface-container-low: #1c0930;
-  --surface-container: #230f39;
-  --surface-container-high: #2a1442;
-  --surface-container-highest: #321a4b;
-  --surface-bright: #391f55;
-  --outline-variant: #524065;
-  --outline: #816d95;
-  --foreground: #f1dfff;
-  --on-surface-variant: #b9a2cd;
-  --primary: #ff8aa9;
-  --primary-dim: #e4006c;
-  --primary-container: #ff719b;
-  --secondary: #af88ff;
-  --secondary-container: #6d0bec;
-  --secondary-fixed: #dcc9ff;
-  --tertiary: #81ecff;
-  --tertiary-container: #00e3fd;
-  --on-tertiary-container: #004d57;
-  --on-primary-fixed: #000000;
+  --background: #09090b;
+  --surface: #09090b;
+  --surface-container-low: #18181b;
+  --surface-container: #18181b;
+  --surface-container-high: #27272a;
+  --surface-container-highest: #3f3f46;
+  --surface-bright: #52525b;
+  --outline-variant: #27272a;
+  --outline: #3f3f46;
+  --foreground: #fafafa;
+  --on-surface-variant: #a1a1aa;
+  --primary: #ff3385;
+  --primary-dim: #e11d48;
+  --primary-container: #fb7185;
+  --on-primary: #ffffff;
+  --secondary: #fb7185;
+  --secondary-container: #fda4af;
+  --secondary-fixed: #ffe4e6;
+  --tertiary: #38bdf8;
+  --tertiary-container: #0ea5e9;
+  --on-tertiary-container: #082f49;
+  --on-primary-fixed: #ffffff;
 }
 
 @theme inline {
@@ -40,6 +41,7 @@
   --color-primary: var(--primary);
   --color-primary-dim: var(--primary-dim);
   --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
   --color-secondary: var(--secondary);
   --color-secondary-container: var(--secondary-container);
   --color-secondary-fixed: var(--secondary-fixed);
@@ -49,25 +51,30 @@
   --color-on-primary-fixed: var(--on-primary-fixed);
   --font-sans: var(--font-plus-jakarta);
   --font-headline: var(--font-plus-jakarta);
-  --font-body: var(--font-manrope);
+  --font-body: var(--font-plus-jakarta);
 }
 
 * {
-  border-color: rgb(255 255 255 / 0.06);
+  border-color: rgb(63 63 70 / 0.5);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
+html.dark,
+html {
+  color-scheme: dark;
+}
+
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgb(109 11 236 / 0.18), transparent 34%),
-    radial-gradient(circle at 85% 20%, rgb(255 138 169 / 0.11), transparent 26%),
-    linear-gradient(180deg, #1a0631 0%, #160628 32%, #110420 100%);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 100% 0%, rgb(236 72 153 / 0.1), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgb(244 63 94 / 0.06), transparent 40%);
   color: var(--foreground);
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
@@ -77,18 +84,18 @@ button {
 }
 
 ::selection {
-  background: rgb(255 138 169 / 0.22);
+  background: rgb(255 51 133 / 0.3);
   color: white;
 }
 
 .glass-panel {
-  background: rgb(50 26 75 / 0.68);
+  background: rgb(24 24 27 / 0.72);
   backdrop-filter: blur(24px);
 }
 
 .section-shell {
-  border: 1px solid rgb(255 255 255 / 0.06);
-  background: linear-gradient(180deg, rgb(50 26 75 / 0.6), rgb(28 9 48 / 0.58));
+  border: 1px solid rgb(39 39 42 / 0.8);
+  background: linear-gradient(180deg, rgb(24 24 27 / 0.65), rgb(9 9 11 / 0.85));
   backdrop-filter: blur(20px);
 }
 
@@ -99,6 +106,19 @@ button {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.glow-pink-500 {
+  filter: drop-shadow(0 0 15px rgba(255, 51, 133, 0.3));
 }
 
 .masonry-columns {
@@ -121,4 +141,45 @@ button {
 .masonry-item {
   break-inside: avoid;
   margin-bottom: 1.5rem;
+}
+
+/* Brand logo — footer monument + subtle motion */
+@keyframes brand-logo-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes brand-sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleY(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.1);
+  }
+}
+
+@keyframes brand-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.brand-logo-float {
+  animation: brand-logo-float 5s ease-in-out infinite;
+}
+
+.brand-sparkle-ray {
+  animation: brand-sparkle-twinkle 2.4s ease-in-out infinite;
+}
+
+.brand-orbit-slow {
+  animation: brand-orbit 28s linear infinite;
 }

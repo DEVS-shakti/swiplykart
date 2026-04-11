@@ -4,15 +4,10 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
-import { Button } from "@/components/ui/button";
+import { ProductDetailCTA } from "@/components/ProductDetailCTA";
 import { VibeTag } from "@/components/VibeTag";
 import { ViewTracker } from "@/components/ViewTracker";
-import { getProductById, getProducts, getRelatedProducts } from "@/services/productService";
-
-export async function generateStaticParams() {
-  const { products } = await getProducts(50);
-  return products.map((product) => ({ id: product.id }));
-}
+import { getProductById, getRelatedProducts } from "@/services/productService";
 
 export default async function ProductDetailPage({
   params,
@@ -43,11 +38,11 @@ export default async function ProductDetailPage({
               </div>
               <div>
                 <h1 className="font-headline text-5xl font-extrabold text-white md:text-6xl">{product.name}</h1>
-                <div className="mt-4 flex items-center gap-4">
+                <div className="mt-4 flex flex-wrap items-center gap-4">
                   <span className="text-3xl font-bold text-primary">${product.price.toFixed(2)}</span>
-                  <span className="text-lg text-white/25 line-through">
-                    ${(product.price * 1.25).toFixed(2)}
-                  </span>
+                  {typeof product.compareAtPrice === "number" && product.compareAtPrice > product.price ? (
+                    <span className="text-lg text-white/25 line-through">${product.compareAtPrice.toFixed(2)}</span>
+                  ) : null}
                 </div>
               </div>
               <div>
@@ -68,12 +63,7 @@ export default async function ProductDetailPage({
                   ))}
                 </ul>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Button size="lg">Add to bag</Button>
-                <Button size="lg" variant="secondary">
-                  Buy now
-                </Button>
-              </div>
+              <ProductDetailCTA product={product} />
             </div>
           </div>
         </section>

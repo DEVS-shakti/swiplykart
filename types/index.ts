@@ -5,6 +5,9 @@ export type Product = {
   title?: string;
   name: string;
   price: number;
+  /** Optional “was” price for discount badge */
+  compareAtPrice?: number;
+  discountPercent?: number;
   category: string;
   image: string;
   gallery: string[];
@@ -18,6 +21,10 @@ export type Product = {
   ratio?: string;
   accent?: "primary" | "secondary" | "tertiary";
   featuredLabel?: string;
+  /** When true, product is eligible for the home hero rotation (set in Firestore or admin). */
+  heroFeatured?: boolean;
+  /** Lower sorts first within hero picks. */
+  heroOrder?: number;
 };
 
 export type UserProfile = {
@@ -25,6 +32,8 @@ export type UserProfile = {
   preferences: string[];
   likedProducts: string[];
   savedProducts: string[];
+  dislikedProducts?: string[];
+  displayName?: string;
   role?: "admin" | "user";
 };
 
